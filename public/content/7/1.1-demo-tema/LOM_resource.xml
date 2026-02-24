@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lom>
+  <general>
+    <title>
+      <string>Демонстрационная тема</string>
+    </title>
+    <description>
+      <string>Пример урока для проверки работы платформы.</string>
+    </description>
+    <keyword><string>демо</string></keyword>
+    <keyword><string>физика</string></keyword>
+  </general>
+</lom>
