@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { Topic } from '@/lib/content';
 import { getSortedTopics } from '@/lib/content';
 
@@ -25,21 +25,6 @@ export default function TopicListClient({ grade, topics }: Props) {
   const [query, setQuery] = useState('');
   const [sortBy, setSortBy] = useState<'order' | 'title'>('order');
   const [completed, setCompleted] = useState<Set<string>>(readCompleted(grade));
-
-  useEffect(() => {
-    const update = () => setCompleted(readCompleted(grade));
-    update();
-
-    window.addEventListener('storage', update);
-    window.addEventListener('focus', update);
-    document.addEventListener('visibilitychange', update);
-
-    return () => {
-      window.removeEventListener('storage', update);
-      window.removeEventListener('focus', update);
-      document.removeEventListener('visibilitychange', update);
-    };
-  }, [grade]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
