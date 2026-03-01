@@ -32,11 +32,3 @@ npm run build:index
 
 Если локальный bundle отсутствует или невалиден, `SwfPlayer` пробует CDN fallback
 `https://unpkg.com/@ruffle-rs/ruffle/ruffle.js`.
-
-## Troubleshooting Vercel deploy
-
-- Warning `deprecated next@14.2.7` means package is outdated and may have security issues.
-  This repository now pins patched `next@14.2.33`.
-- If build fails on XML encoding parsing, run with Node 20+ (Vercel default),
-  where `TextDecoder('windows-1251')` works. Script also supports optional `iconv-lite` fallback.
-- If lessons open but SWF does not start, replace `public/ruffle/ruffle.js` stub with official self-hosted Ruffle bundle.
