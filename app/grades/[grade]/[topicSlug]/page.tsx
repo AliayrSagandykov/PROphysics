@@ -2,8 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ProgressControls from '@/components/ProgressControls';
 import SwfPlayer from '@/components/SwfPlayer';
-import { getContentIndex } from '@/lib/content';
-import { findTopic, getSortedTopics } from '@/lib/content-types';
+import { findTopic, getContentIndex, getSortedTopics } from '@/lib/content';
 
 export default async function TopicPage({
   params
