@@ -1,34 +1,20 @@
-import fs from 'fs/promises';
-import path from 'path';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 
 const root = process.cwd();
 const contentRoot = path.join(root, 'public', 'content');
 const outPath = path.join(root, 'public', 'contentIndex.json');
 const grades = ['7', '8', '9'];
 
-function decodeXmlBuffer(buf) {
-  const utf8 = buf.toString('utf8');
-  const hasWin1251Header = /encoding=["']windows-1251["']/i.test(utf8);
-  const hasReplacementChar = utf8.includes('�');
-
-  if (!hasWin1251Header && !hasReplacementChar) {
-    return utf8;
-  }
-
-  try {
-    return new TextDecoder('windows-1251').decode(buf);
-  } catch {
-    return utf8;
-  }
-}
+const win1251Decoder = new TextDecoder('windows-1251');
 
 async function readXml(filePath) {
   const buf = await fs.readFile(filePath);
-  return decodeXmlBuffer(buf);
-}
-
-function normalizeXml(xml) {
-  return xml.replace(/<(\/?)([\w.-]+):([\w.-]+)/g, '<$1$2_$3');
+  const utf8 = buf.toString('utf8');
+  if (/encoding=["']windows-1251["']/i.test(utf8) || utf8.includes('�')) {
+    return win1251Decoder.decode(buf);
+  }
+  return utf8;
 }
 
 function extractTag(xml, tag) {
@@ -47,32 +33,19 @@ function stripTags(value) {
 }
 
 function extractHref(manifestXml) {
-  const normalized = normalizeXml(manifestXml);
-  const resourceHref = normalized.match(/<resource[^>]*\shref=["']([^"']+)["'][^>]*>/i);
-  return resourceHref?.[1]?.trim() ?? null;
+  const resourceHref = manifestXml.match(/<resource[^>]*\shref=["']([^"']+)["'][^>]*>/i);
+  return resourceHref?.[1] ?? null;
 }
 
 function extractLomFields(lomXml) {
-  const normalized = normalizeXml(lomXml);
-
-  const titleBlock =
-    extractTag(normalized, 'title') ??
-    extractTag(normalized, 'general_title') ??
-    extractTag(normalized, 'lom_general_title');
+  const titleBlock = extractTag(lomXml, 'title');
   const title = titleBlock ? stripTags(titleBlock) : null;
 
-  const descriptionBlock =
-    extractTag(normalized, 'description') ??
-    extractTag(normalized, 'general_description') ??
-    extractTag(normalized, 'lom_general_description');
+  const descriptionBlock = extractTag(lomXml, 'description');
   const description = descriptionBlock ? stripTags(descriptionBlock) : '';
 
-  const keywordBlocks = [
-    ...extractAllTags(normalized, 'keyword'),
-    ...extractAllTags(normalized, 'general_keyword'),
-    ...extractAllTags(normalized, 'lom_general_keyword')
-  ];
-  const keywords = [...new Set(keywordBlocks.map(stripTags).filter(Boolean))];
+  const keywordBlocks = extractAllTags(lomXml, 'keyword');
+  const keywords = keywordBlocks.map(stripTags).filter(Boolean);
 
   return { title, description, keywords };
 }
@@ -89,7 +62,6 @@ async function build() {
   for (const grade of grades) {
     const gradeDir = path.join(contentRoot, grade);
     let dirents = [];
-
     try {
       dirents = await fs.readdir(gradeDir, { withFileTypes: true });
     } catch {
@@ -98,7 +70,6 @@ async function build() {
 
     for (const dirent of dirents) {
       if (!dirent.isDirectory()) continue;
-
       const slug = dirent.name;
       const topicDir = path.join(gradeDir, slug);
       const manifestPath = path.join(topicDir, 'imsmanifest.xml');
@@ -130,7 +101,7 @@ async function build() {
     result[grade].sort((a, b) => a.order - b.order);
   }
 
-  await fs.writeFile(outPath, `${JSON.stringify(result, null, 2)}\n`, 'utf8');
+  await fs.writeFile(outPath, JSON.stringify(result, null, 2) + '\n', 'utf8');
   console.log(`Generated ${path.relative(root, outPath)}`);
 }
 
