@@ -18,29 +18,51 @@ declare global {
 
 let rufflePromise: Promise<void> | null = null;
 
-function loadRuffleScript(): Promise<void> {
-  if (typeof window === 'undefined') return Promise.resolve();
-  if (window.RufflePlayer) return Promise.resolve();
-  if (rufflePromise) return rufflePromise;
-
-  rufflePromise = new Promise((resolve, reject) => {
-    const existing = document.querySelector('script[data-ruffle="true"]');
+function appendScript(src: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const existing = document.querySelector(`script[data-ruffle-src="${src}"]`);
     if (existing) {
+      if (window.RufflePlayer) {
+        resolve();
+        return;
+      }
       existing.addEventListener('load', () => resolve(), { once: true });
-      existing.addEventListener('error', () => reject(new Error('Ruffle failed to load')), {
+      existing.addEventListener('error', () => reject(new Error(`Ruffle failed to load from ${src}`)), {
         once: true
       });
       return;
     }
 
     const script = document.createElement('script');
-    script.src = '/ruffle/ruffle.js';
+    script.src = src;
     script.async = true;
-    script.dataset.ruffle = 'true';
+    script.dataset.ruffleSrc = src;
     script.onload = () => resolve();
-    script.onerror = () => reject(new Error('Ruffle failed to load'));
+    script.onerror = () => reject(new Error(`Ruffle failed to load from ${src}`));
     document.body.appendChild(script);
   });
+}
+
+async function loadRuffleScript(): Promise<void> {
+  if (typeof window === 'undefined') return;
+  if (window.RufflePlayer) return;
+  if (rufflePromise) return rufflePromise;
+
+  rufflePromise = (async () => {
+    const sources = ['/ruffle/ruffle.js', 'https://unpkg.com/@ruffle-rs/ruffle/ruffle.js'];
+    let lastError: Error | null = null;
+
+    for (const source of sources) {
+      try {
+        await appendScript(source);
+        if (window.RufflePlayer) return;
+      } catch (error) {
+        lastError = error as Error;
+      }
+    }
+
+    throw lastError ?? new Error('Ruffle is unavailable');
+  })();
 
   return rufflePromise;
 }
@@ -69,7 +91,7 @@ export default function SwfPlayer({ src }: Props) {
         await (playerNode as HTMLElement & { load: (movie: string) => Promise<void> }).load(src);
       } catch {
         if (mounted) {
-          setError('Урок не поддерживается в браузере, попробуйте другой.');
+          setError('Не удалось запустить урок. Проверьте SWF-файл или подключение к Ruffle.');
         }
       }
     }
