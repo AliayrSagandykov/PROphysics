@@ -62,10 +62,7 @@ async function loadRuffleScript(): Promise<void> {
     }
 
     throw lastError ?? new Error('Ruffle is unavailable');
-  })().catch((error) => {
-    rufflePromise = null;
-    throw error;
-  });
+  })();
 
   return rufflePromise;
 }
