@@ -56,6 +56,29 @@ function getOrder(slug) {
   return Number.parseFloat(match[1].replace(',', '.'));
 }
 
+function normalizeResourcePath(filePath) {
+  return filePath.replace(/\\/g, '/').replace(/^\.\//, '').replace(/^\//, '');
+}
+
+async function findFirstFile(topicDir, candidates) {
+  const dirents = await fs.readdir(topicDir, { withFileTypes: true });
+  for (const candidate of candidates) {
+    const file = dirents.find(
+      (d) => d.isFile() && d.name.localeCompare(candidate, undefined, { sensitivity: 'accent' }) === 0
+    );
+    if (file) {
+      return path.join(topicDir, file.name);
+    }
+  }
+  return null;
+}
+
+async function findFirstSwf(topicDir) {
+  const dirents = await fs.readdir(topicDir, { withFileTypes: true });
+  const swf = dirents.find((d) => d.isFile() && d.name.toLowerCase().endsWith('.swf'));
+  return swf ? swf.name : null;
+}
+
 async function build() {
   const result = { '7': [], '8': [], '9': [] };
 
@@ -72,17 +95,33 @@ async function build() {
       if (!dirent.isDirectory()) continue;
       const slug = dirent.name;
       const topicDir = path.join(gradeDir, slug);
-      const manifestPath = path.join(topicDir, 'imsmanifest.xml');
-      const lomPath = path.join(topicDir, 'LOM_resource.xml');
 
       try {
-        const [manifestXml, lomXml] = await Promise.all([readXml(manifestPath), readXml(lomPath)]);
-        const href = extractHref(manifestXml);
-        const { title, description, keywords } = extractLomFields(lomXml);
+        const manifestPath = await findFirstFile(topicDir, ['imsmanifest.xml']);
+        const lomPath = await findFirstFile(topicDir, ['LOM_resource.xml', 'lom_resource.xml']);
 
-        if (!href || !title) {
-          console.warn(`[skip] ${grade}/${slug}: missing href or title`);
+        let href = null;
+        if (manifestPath) {
+          const manifestXml = await readXml(manifestPath);
+          href = extractHref(manifestXml);
+        }
+
+        const swfFile = href ? normalizeResourcePath(href) : await findFirstSwf(topicDir);
+
+        if (!swfFile) {
+          console.warn(`[skip] ${grade}/${slug}: missing swf`);
           continue;
+        }
+
+        let title = slug;
+        let description = '';
+        let keywords = [];
+        if (lomPath) {
+          const lomXml = await readXml(lomPath);
+          const parsed = extractLomFields(lomXml);
+          title = parsed.title || slug;
+          description = parsed.description;
+          keywords = parsed.keywords;
         }
 
         result[grade].push({
@@ -90,7 +129,7 @@ async function build() {
           title,
           description,
           keywords,
-          swf: `/content/${grade}/${slug}/${href}`,
+          swf: `/content/${grade}/${slug}/${swfFile}`,
           order: getOrder(slug)
         });
       } catch (error) {
