@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
-import type { Topic } from '@/lib/content';
-import { getSortedTopics } from '@/lib/content';
+import type { Topic } from '../lib/content-client';
+import { getSortedTopics } from '../lib/content-client';
 
 type Props = {
   grade: string;
