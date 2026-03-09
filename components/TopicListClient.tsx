@@ -63,7 +63,7 @@ export default function TopicListClient({ grade, topics }: Props) {
       </div>
       <div className="grid">
         {filtered.map((topic) => (
-          <Link key={topic.slug} href={`/grades/${grade}/${topic.slug}`} className="card">
+          <Link key={topic.slug} href={`/grades/${encodeURIComponent(grade)}/${encodeURIComponent(topic.slug)}`} className="card">
             <h3 style={{ marginTop: 0 }}>{topic.title}</h3>
             <p className="muted">{topic.description || 'Без описания'}</p>
             <p className="muted">Статус: {completed.has(topic.slug) ? '✅ Пройдено' : '— Не отмечено'}</p>
