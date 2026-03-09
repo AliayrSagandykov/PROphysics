@@ -4,6 +4,13 @@ import ProgressControls from '@/components/ProgressControls';
 import SwfPlayer from '@/components/SwfPlayer';
 import { findTopic, getContentIndex, getSortedTopics } from '@/lib/content';
 
+export async function generateStaticParams() {
+  const content = await getContentIndex();
+  return Object.entries(content).flatMap(([grade, topics]) =>
+    topics.map((topic) => ({ grade, topicSlug: topic.slug }))
+  );
+}
+
 export default async function TopicPage({
   params
 }: {
