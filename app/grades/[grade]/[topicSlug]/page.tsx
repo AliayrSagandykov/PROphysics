@@ -16,9 +16,12 @@ export default async function TopicPage({
 }: {
   params: { grade: string; topicSlug: string };
 }) {
+  const grade = normalizeParam(params.grade);
+  const topicSlug = normalizeParam(params.topicSlug);
+
   const content = await getContentIndex();
-  const topics = getSortedTopics(content[params.grade] ?? [], 'order');
-  const topic = findTopic(topics, params.topicSlug);
+  const topics = getSortedTopics(content[grade] ?? [], 'order');
+  const topic = findTopic(topics, topicSlug);
 
   if (!topic) notFound();
 
@@ -29,24 +32,24 @@ export default async function TopicPage({
   return (
     <main className="container">
       <div className="breadcrumbs">
-        <Link href="/">Классы</Link> / <Link href={`/grades/${params.grade}`}>{params.grade} класс</Link> /{' '}
+        <Link href="/">Классы</Link> / <Link href={`/grades/${encodeURIComponent(grade)}`}>{grade} класс</Link> /{' '}
         <span>{topic.title}</span>
       </div>
       <h1>{topic.title}</h1>
       <p className="muted">{topic.description || 'Описание отсутствует.'}</p>
-      <ProgressControls grade={params.grade} slug={topic.slug} />
+      <ProgressControls grade={grade} slug={topic.slug} />
       <SwfPlayer src={topic.swf} />
       <div className="topic-actions">
-        <Link href={`/grades/${params.grade}`}>
+        <Link href={`/grades/${encodeURIComponent(grade)}`}>
           <button>Назад к темам</button>
         </Link>
         {prevTopic && (
-          <Link href={`/grades/${params.grade}/${prevTopic.slug}`}>
+          <Link href={buildTopicHref(grade, prevTopic.slug)}>
             <button>← Предыдущая тема</button>
           </Link>
         )}
         {nextTopic && (
-          <Link href={`/grades/${params.grade}/${nextTopic.slug}`}>
+          <Link href={buildTopicHref(grade, nextTopic.slug)}>
             <button>Следующая тема →</button>
           </Link>
         )}
