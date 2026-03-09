@@ -6,13 +6,20 @@ const contentRoot = path.join(root, 'public', 'content');
 const outPath = path.join(root, 'public', 'contentIndex.json');
 const grades = ['7', '8', '9'];
 
-const win1251Decoder = new TextDecoder('windows-1251');
+function decodeWin1251(buf) {
+  try {
+    return new TextDecoder('windows-1251').decode(buf);
+  } catch {
+    return null;
+  }
+}
 
 async function readXml(filePath) {
   const buf = await fs.readFile(filePath);
   const utf8 = buf.toString('utf8');
   if (/encoding=["']windows-1251["']/i.test(utf8) || utf8.includes('�')) {
-    return win1251Decoder.decode(buf);
+    const decoded = decodeWin1251(buf);
+    if (decoded) return decoded;
   }
   return utf8;
 }

@@ -2,6 +2,11 @@ import Link from 'next/link';
 import { getContentIndex } from '@/lib/content';
 import TopicListClient from '@/components/TopicListClient';
 
+export async function generateStaticParams() {
+  const content = await getContentIndex();
+  return Object.keys(content).map((grade) => ({ grade }));
+}
+
 export default async function GradePage({ params }: { params: { grade: string } }) {
   const content = await getContentIndex();
   const topics = content[params.grade] ?? [];
