@@ -11,13 +11,17 @@ export async function generateStaticParams() {
   );
 }
 
+function buildTopicHref(grade: string, slug: string): string {
+  return `/grades/${encodeURIComponent(grade)}/${encodeURIComponent(slug)}`;
+}
+
 export default async function TopicPage({
   params
 }: {
   params: { grade: string; topicSlug: string };
 }) {
-  const grade = normalizeParam(params.grade);
-  const topicSlug = normalizeParam(params.topicSlug);
+  const grade = decodeURIComponent(params.grade);
+  const topicSlug = decodeURIComponent(params.topicSlug);
 
   const content = await getContentIndex();
   const topics = getSortedTopics(content[grade] ?? [], 'order');
