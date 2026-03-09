@@ -11,18 +11,6 @@ export async function generateStaticParams() {
   );
 }
 
-function normalizeParam(value: string): string {
-  try {
-    return decodeURIComponent(value);
-  } catch {
-    return value;
-  }
-}
-
-function buildTopicHref(grade: string, slug: string): string {
-  return `/grades/${encodeURIComponent(grade)}/${encodeURIComponent(slug)}`;
-}
-
 export default async function TopicPage({
   params
 }: {
