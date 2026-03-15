@@ -39,3 +39,6 @@ button.primary { background: var(--accent); color: #fff; border-color: var(--acc
 .progress-bar { height: 8px; border-radius: 999px; background: #dbeafe; overflow: hidden; }
 .progress-bar > span { display: block; height: 100%; background: var(--accent); }
 .topic-actions { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0; }
+
+.page-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.language-switcher { display: flex; align-items: center; gap: 8px; color: var(--muted); }

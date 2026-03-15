@@ -9,26 +9,36 @@ npm install
 npm run dev
 ```
 
-## Куда класть первые уроки (SWF + XML)
+## Языки контента (русский + казахский)
 
-Каждый урок — это отдельная папка внутри класса:
+Русский контент остаётся в текущей структуре `public/content/{7,8,9}`.
+Для казахского языка используется отдельная папка `public/content/kz/{7,8,9}`.
 
 ```text
 public/content/
   7/
     1.1-demo-tema/
-      imsmanifest.xml
-      LOM_resource.xml
-      1_1.swf
+      imsmanifest.xml           # необязательно
+      LOM_resource.xml          # необязательно
+      1_1.swf                   # обязательно (или путь до SWF в manifest)
   8/
   9/
+  kz/
+    7/
+      1.1-demo-tema/
+        1_1.swf
+    8/
+    9/
 ```
 
+> Важно: если вы хотите загрузить только SWF без XML, это поддерживается — скрипт найдёт первый `.swf` в папке урока.
+
 Правила:
+- язык интерфейса: `ru` или `kk`;
 - папка класса: `7`, `8` или `9`;
 - папка урока: любой slug (лучше начинать с номера: `1.1-...`, `2.3-...`), чтобы корректно работала сортировка;
-- внутри папки урока **обязательно** должны быть `imsmanifest.xml` и `LOM_resource.xml`;
-- `imsmanifest.xml` должен ссылаться на SWF через `href` в теге `<resource ... href="...">`.
+- `imsmanifest.xml` и `LOM_resource.xml` — опциональны;
+- если есть `imsmanifest.xml`, приоритет у `href` из `<resource ... href="...">`.
 
 После добавления уроков пересоберите индекс:
 
@@ -36,7 +46,19 @@ public/content/
 npm run build:index
 ```
 
-Скрипт просканирует `public/content/{7,8,9}` и обновит `public/contentIndex.json`.
+Скрипт просканирует:
+- русский: `public/content/{7,8,9}`
+- казахский: `public/content/kz/{7,8,9}`
+
+И обновит:
+- `public/contentIndex.ru.json`
+- `public/contentIndex.kk.json`
+
+## Переключение языка на сайте
+
+На страницах классов/тем есть переключатель языка. Он меняет параметр `?lang=ru|kk`:
+- `ru` берёт уроки из `public/content/{grade}/...`;
+- `kk` берёт уроки из `public/content/kz/{grade}/...`.
 
 ## Ruffle
 
