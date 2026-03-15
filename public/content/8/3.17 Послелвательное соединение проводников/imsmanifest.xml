@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<manifest identifier="manifest" xmlns="http://www.imsglobal.org/xsd/imscp_v1p1" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3">
+	<metadata>
+		<schema>ADL SCORM</schema>
+		<schemaversion>CAM 1.3</schemaversion>
+		<adlcp:location>LOM_resource.xml</adlcp:location>
+	</metadata>
+	<organizations/>
+	<resources>
+    <resource identifier="resource" type="webcontent" adlcp:scormType="asset" href="3_17.swf">
+      <file>3_17.swf</file>
+    </resource>
+  </resources>
+</manifest>
