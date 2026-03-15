@@ -3,8 +3,18 @@ import path from 'path';
 
 const root = process.cwd();
 const contentRoot = path.join(root, 'public', 'content');
-const outPath = path.join(root, 'public', 'contentIndex.json');
 const grades = ['7', '8', '9'];
+
+const languageConfig = {
+  ru: {
+    sourceRoot: contentRoot,
+    swfPathPrefix: '/content'
+  },
+  kk: {
+    sourceRoot: path.join(contentRoot, 'kz'),
+    swfPathPrefix: '/content/kz'
+  }
+};
 
 function decodeWin1251(buf) {
   try {
@@ -86,11 +96,11 @@ async function findFirstSwf(topicDir) {
   return swf ? swf.name : null;
 }
 
-async function build() {
+async function buildForLanguage(lang, config) {
   const result = { '7': [], '8': [], '9': [] };
 
   for (const grade of grades) {
-    const gradeDir = path.join(contentRoot, grade);
+    const gradeDir = path.join(config.sourceRoot, grade);
     let dirents = [];
     try {
       dirents = await fs.readdir(gradeDir, { withFileTypes: true });
@@ -116,7 +126,7 @@ async function build() {
         const swfFile = href ? normalizeResourcePath(href) : await findFirstSwf(topicDir);
 
         if (!swfFile) {
-          console.warn(`[skip] ${grade}/${slug}: missing swf`);
+          console.warn(`[skip] ${lang}/${grade}/${slug}: missing swf`);
           continue;
         }
 
@@ -136,19 +146,26 @@ async function build() {
           title,
           description,
           keywords,
-          swf: `/content/${grade}/${slug}/${swfFile}`,
+          swf: `${config.swfPathPrefix}/${grade}/${slug}/${swfFile}`,
           order: getOrder(slug)
         });
       } catch (error) {
-        console.warn(`[skip] ${grade}/${slug}: ${error.message}`);
+        console.warn(`[skip] ${lang}/${grade}/${slug}: ${error.message}`);
       }
     }
 
     result[grade].sort((a, b) => a.order - b.order);
   }
 
+  const outPath = path.join(root, 'public', `contentIndex.${lang}.json`);
   await fs.writeFile(outPath, JSON.stringify(result, null, 2) + '\n', 'utf8');
   console.log(`Generated ${path.relative(root, outPath)}`);
+}
+
+async function build() {
+  for (const [lang, config] of Object.entries(languageConfig)) {
+    await buildForLanguage(lang, config);
+  }
 }
 
 build();
