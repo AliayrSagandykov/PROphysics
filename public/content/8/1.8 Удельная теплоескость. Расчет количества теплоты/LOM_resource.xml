@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<lom xmlns="http://ltsc.ieee.org/xsd/LOM">
+  <general>
+    <identifier>
+	  <catalog>GUID</catalog>
+	  <entry>669b7977-e921-11dc-95ff-0800200c9a66</entry>
+	</identifier>
+    <title>
+	  <string language="ru">Удельная теплоемкость. Расчет количества теплоты, необходимого для нагревания тела и выделяемого им при охлаждении</string>
+	</title>
+    <language>ru</language>
+    <description>
+    	<string language="ru">Вводится новая физическая величина - удельная теплоемкость. Выводится формула для расчета количества теплоты, необходимого для нагревания тела или выделяемого им при охлаждении.</string>
+    </description>
+    <keyword>
+	  <string language="ru">количество теплоты</string>
+	</keyword>
+    <keyword>
+	  <string language="ru"> удельная теплоёмкость</string>
+	</keyword>
+    <keyword>
+	  <string language="ru"> расчет количества теплоты</string>
+	</keyword>
+    <structure>
+	  <source>LOMv1.0</source>
+	  <value>atomic</value>
+    </structure>
+  </general>
+  <lifeCycle>
+    <version><string language="ru">1.0</string></version>
+    <contribute>
+      <role>
+	    <source>LOMv1.0</source>
+		<value>author</value>
+	  </role>
+      <entity>
+BEGIN:VCARD
+VERSION:2.1
+FN:Виктория Владимировна Белага
+LABEL;WORK:Россия
+HOME:;;ул. Попова, д. 5, кв.1404;Дубна;Московская обл.;141980;Россия
+BDAY:1965/02/27
+EMAIL;PREF;INTERNET:belaga@sunhe.ru
+REV:20080331T115148Z
+END:VCARD
+	  </entity>
+	  <date>
+        <dateTime>2008-03-31 13:00:00 +03:00</dateTime>
+      </date>
+    </contribute>
+    <contribute>
+      <role>
+	    <source>LOMv1.0</source>
+		<value>author</value>
+	  </role>
+      <entity>
+BEGIN:VCARD
+VERSION:2.1
+FN:Владимир Георгиевич Кадышевский
+TEL;WORK;VOICE:+7 (09621) 62216
+TEL;WORK;FAX:+7 (095) 9752381
+WORK:;;ул. Жолио-Кюри, д. 6;Дубна;Московская обл.;141980;Россия
+BDAY:1937/05/05
+EMAIL;PREF;INTERNET:kadyshev@jinr.ru
+REV:20080331T113708Z
+END:VCARD
+	  </entity>
+	  <date>
+        <dateTime>2008-03-31 13:00:00 +03:00</dateTime>
+      </date>
+    </contribute>
+    <contribute>
+      <role>
+	    <source>LOMv1.0</source>
+		<value>author</value>
+	  </role>
+      <entity>
+BEGIN:VCARD
+VERSION:2.1
+FN:Иван Алексеевич Ломаченков
+TEL;WORK;VOICE:+7 (09621) 64191
+TEL;HOME;VOICE:+7 (09621) 34798
+LABEL;WORK:Россия
+HOME:;;ул. Понтекорово, д. 22, кв. 104;Дубна;Московская обл.;141980;Россия
+BDAY:1949/11/24
+EMAIL;PREF;INTERNET:lomach@dubna.ru
+REV:20080331T114947Z
+END:VCARD
+	  </entity>
+	  <date>
+        <dateTime>2008-03-31 13:00:00 +03:00</dateTime>
+      </date>
+    </contribute>
+    <contribute>
+      <role>
+	    <source>LOMv1.0</source>
+		<value>author</value>
+	  </role>
+      <entity>
+BEGIN:VCARD
+VERSION:2.1
+FN:Иван Данаилов Ванков
+ORG:Институт ядерных исследований и ядерной энергетики - БАН
+TEL;WORK;VOICE:359 2 875-60-69
+TEL;HOME;VOICE:359 2 74-79-09
+TEL;WORK;FAX:359 2 975-36-19
+WORK:;;бул. Цариградское шоссе 72;София 1784;;;Болгария
+BDAY:1936/01/12
+EMAIL;PREF;INTERNET:ivankov@inrne.bas.bg
+REV:20080331T114308Z
+END:VCARD
+	  </entity>
+	  <date>
+        <dateTime>2008-03-31 13:00:00 +03:00</dateTime>
+      </date>
+    </contribute>
+    <contribute>
+      <role>
+	    <source>LOMv1.0</source>
+		<value>author</value>
+	  </role>
+      <entity>
+BEGIN:VCARD
+VERSION:2.1
+FN:Мария Илиева Димитрова
+ORG:Институт ядерных исследований и ядерной энергетики - БАН
+TEL;WORK;VOICE:359 2 71-44-634
+TEL;HOME;VOICE:359 2 74-79-09
+TEL;WORK;FAX:359 2 975-36-19
+WORK:;;бул. Цариградское шоссе 72;София 1784;;;Болгария
+BDAY:1935/05/10
+EMAIL;PREF;INTERNET:ivankov@inrne.bas.bg
+REV:20080331T114613Z
+END:VCARD
+	  </entity>
+	  <date>
+        <dateTime>2008-03-31 13:00:00 +03:00</dateTime>
+      </date>
+    </contribute>
+    <contribute>
+      <role>
+	    <source>LOMv1.0</source>
+		<value>author</value>
+	  </role>
+      <entity>
+BEGIN:VCARD
+VERSION:2.1
+FN:Юрий Анатольевич Панебратцев
+ORG:ООО &quot;ИнтерГрафика&quot;
+TITLE:директор
+TEL;WORK;VOICE:(49621) 6-58-94
+WORK:;;ул. Понтекорво, д. 11;Дубна;Московская обл.;141980;Россия
+URL;WORK:http://intergraphics.ru
+EMAIL;PREF;INTERNET:panebrat@sunhe.jinr.ru
+REV:20080331T111409Z
+END:VCARD
+	  </entity>
+	  <date>
+        <dateTime>2008-03-31 13:00:00 +03:00</dateTime>
+      </date>
+    </contribute>
+    <contribute>
+      <role>
+	    <source>LOMv1.0</source>
+		<value>content provider</value>
+	  </role>
+      <entity>
+BEGIN:VCARD
+FN:;
+ORG:ФГУ ГНИИ ИТТ &quot;Информика&quot;
+END:VCARD
+	  </entity>
+    </contribute>
+    <contribute>
+      <role>
+	    <source>LOMv1.0</source>
+		<value>educational validator</value>
+	  </role>
+      <entity>
+BEGIN:VCARD
+FN:Коршунов Н.С.
+END:VCARD
+	  </entity>
+	  <date>
+        <dateTime>2008-10-30 15:38:52 +03:00</dateTime>
+      </date>
+    </contribute>
+    <contribute>
+      <role>
+	    <source>LOMv1.0</source>
+		<value>technical validator</value>
+	  </role>
+      <entity>
+BEGIN:VCARD
+FN:Коршунов Н.С.
+END:VCARD
+	  </entity>
+    </contribute>
+    <contribute>
+      <role>
+	    <source>LOMv1.0</source>
+		<value>subject matter expert</value>
+	  </role>
+      <entity>
+BEGIN:VCARD
+FN:Христочевский С.А.;
+ORG:ЭАЦ &quot;НФПК&quot;
+END:VCARD
+	  </entity>
+	  <date>
+        <dateTime>2008-03-31 13:00:00 +03:00</dateTime>
+      </date>
+    </contribute>
+ </lifeCycle>
+ <metaMetadata>
+    <contribute>
+      <role>
+	    <source>LOMv1.0</source>
+		<value>creator</value>
+	  </role>
+      <entity>
+BEGIN:VCARD
+VERSION:2.1
+FN:ООО &quot;ИнтерГрафика&quot;
+ORG:ООО &quot;ИнтерГрафика&quot;
+TEL;WORK;VOICE:+7 (096) 65894
+TEL;WORK;FAX:+7 (09621) 65894
+EMAIL;PREF;INTERNET:panebrat@sunhe.jinr.ru
+REV:20080331T115433Z
+END:VCARD
+	  </entity>
+	  <date>
+        <dateTime>2008-03-31 13:00:00 +03:00</dateTime>
+      </date>
+    </contribute>
+    <contribute>
+      <role>
+	    <source>LOMv1.0</source>
+		<value>creator</value>
+	  </role>
+      <entity>
+BEGIN:VCARD
+ORG:ФГУП &quot;Издательство &quot;Просвещение&quot;
+NOTE:Номер_контракта:ELSP/A2/Gr/001-001-03/03/06
+END:VCARD
+	  </entity>
+    </contribute>
+ </metaMetadata>
+  <technical>
+  <format>application/x-shockwave-flash</format> 
+  <size>93381</size>
+  </technical>
+  <educational>
+  <learningResourceType>
+	<source>LOMv1.0</source>
+	<value>narrative text</value>
+   </learningResourceType>
+   <intendedEndUserRole>
+	<source>LOMv1.0</source>
+    <value>learner</value>
+   </intendedEndUserRole>
+  </educational>
+  <rights>
+   <cost>
+    <source>LOMv1.0</source>
+	<value>no</value>
+   </cost>
+   <copyrightAndOtherRestrictions>
+	<source>LOMv1.0</source>
+	<value>yes</value>
+   </copyrightAndOtherRestrictions>  
+  </rights>	
+  <classification>
+   <taxonPath>
+    <source>
+	 <string language="ru">Класс</string> 
+	 <string language="x-GUID">7ed38400-26b8-11da-8cd6-0800200c9a66</string> 
+	</source>
+	 <taxon>
+	  <id>05d43658-f240-2b8a-95bf-d346e3c32b1c</id>
+ 
+	  <entry><string language="ru">8 класс</string></entry>
+     
+	 </taxon>	
+   </taxonPath>
+  </classification>	
+  <classification>
+   <taxonPath>
+    <source>
+	 <string language="ru">Предмет</string> 
+	 <string language="x-GUID">7ed38401-26b8-11da-8cd6-0800200c9a66</string> 
+	</source>
+	 <taxon>
+	  <id>70d5e3c3-76d8-9fc1-7f7f-9626a7468ae5</id>
+ 
+	  <entry><string language="ru">Физика</string></entry>
+     
+	 </taxon>	
+   </taxonPath>
+  </classification>	
+  <classification>
+   <taxonPath>
+    <source>
+	 <string language="ru">Тематический рубрикатор</string> 
+	 <string language="x-GUID">8f5d7210-86a6-11da-a72b-0800200c9a66</string> 
+	</source>
+	 <taxon>
+	  <id>317eaead-c5ec-bf01-dff4-1852221eed4f</id>
+ 
+	  <entry><string language="ru">Удельная теплоемкость</string></entry>
+     
+	 </taxon>	
+   </taxonPath>
+  </classification>	
+  <classification>
+   <taxonPath>
+    <source>
+	 <string language="ru">Вид ЦОР</string> 
+	 <string language="x-GUID">7af874a7-930b-75c7-5996-307cba5160c8</string> 
+	</source>
+	 <taxon>
+	  <id>e4f57a9e-1d1a-be24-ffb4-1a006003349c</id>
+ 
+	  <entry><string language="ru">Мультимедиа</string></entry>
+     
+	 </taxon>
+	 <taxon>
+	  <id>489128fd-9388-7851-1846-926588926945</id>
+ 
+	  <entry><string language="ru">Интерактивное задание</string></entry>
+     
+	 </taxon>	
+   </taxonPath>
+  </classification>	
+  <classification>
+   <taxonPath>
+    <source>
+	 <string language="ru">«Физика. 7-9 классы»</string> 
+	 <string language="x-GUID">4dc8092d-e921-11dc-95ff-0800200c9a66</string> 
+	</source>
+	 <taxon>
+	  <id>4dc83062-e921-11dc-95ff-0800200c9a66</id>
+ 
+	  <entry><string language="ru">1.8. Урок 8</string></entry>
+     
+	 </taxon>	
+   </taxonPath>
+  </classification>
+  <classification>
+   <taxonPath>
+	<source>
+	 <string language="ru">Поставщики ЦОР</string> 
+	 <string language="x-GUID">ccad6820-8690-11da-a72b-0800200c9a66</string> 
+	</source>
+	<taxon>
+	 <id>e8599adb-8690-11da-a72b-0800200c9a66</id>
+	 <entry><string language="ru">ФГУП &quot;Издательство &quot;Просвещение&quot;</string></entry>
+	</taxon>
+   </taxonPath>
+  </classification>  
+ </lom>
