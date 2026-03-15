@@ -7,7 +7,13 @@ const languageOptions = [
   { code: 'kk', label: 'Қазақша' }
 ] as const;
 
-export default function LanguageSwitcher({ lang }: { lang: string }) {
+export default function LanguageSwitcher({
+  lang,
+  label
+}: {
+  lang: string;
+  label: string;
+}) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -20,7 +26,7 @@ export default function LanguageSwitcher({ lang }: { lang: string }) {
 
   return (
     <div className="language-switcher">
-      <label htmlFor="language-select">Язык:</label>
+      <label htmlFor="language-select">{label}</label>
       <select
         id="language-select"
         value={lang}

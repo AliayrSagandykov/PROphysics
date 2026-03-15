@@ -4,6 +4,7 @@ import ProgressControls from '@/components/ProgressControls';
 import SwfPlayer from '@/components/SwfPlayer';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { findTopic, getContentIndex, getLanguageFromSearchParam, getSortedTopics } from '@/lib/content';
+import { getUiText } from '@/lib/ui-i18n';
 
 export async function generateStaticParams() {
   const content = await getContentIndex('ru');
@@ -26,6 +27,7 @@ export default async function TopicPage({
   const grade = decodeURIComponent(params.grade);
   const topicSlug = decodeURIComponent(params.topicSlug);
   const lang = getLanguageFromSearchParam(searchParams?.lang);
+  const t = getUiText(lang);
 
   const content = await getContentIndex(lang);
   const topics = getSortedTopics(content[grade] ?? [], 'order');
@@ -33,7 +35,7 @@ export default async function TopicPage({
 
   if (!topic) notFound();
 
-  const currentIndex = topics.findIndex((t) => t.slug === topic.slug);
+  const currentIndex = topics.findIndex((topicItem) => topicItem.slug === topic.slug);
   const prevTopic = currentIndex > 0 ? topics[currentIndex - 1] : null;
   const nextTopic = currentIndex >= 0 && currentIndex < topics.length - 1 ? topics[currentIndex + 1] : null;
 
@@ -41,28 +43,30 @@ export default async function TopicPage({
     <main className="container">
       <div className="page-toolbar">
         <div className="breadcrumbs">
-          <Link href={`/?lang=${lang}`}>Классы</Link> /{' '}
-          <Link href={`/grades/${encodeURIComponent(grade)}?lang=${lang}`}>{grade} класс</Link> /{' '}
-          <span>{topic.title}</span>
+          <Link href={`/?lang=${lang}`}>{t.classes}</Link> /{' '}
+          <Link href={`/grades/${encodeURIComponent(grade)}?lang=${lang}`}>
+            {grade} {t.gradeSuffix}
+          </Link>{' '}
+          / <span>{topic.title}</span>
         </div>
-        <LanguageSwitcher lang={lang} />
+        <LanguageSwitcher lang={lang} label={t.languageLabel} />
       </div>
       <h1>{topic.title}</h1>
-      <p className="muted">{topic.description || 'Описание отсутствует.'}</p>
-      <ProgressControls grade={grade} slug={topic.slug} />
+      <p className="muted">{topic.description || t.descriptionMissing}</p>
+      <ProgressControls grade={grade} slug={topic.slug} lang={lang} />
       <SwfPlayer src={topic.swf} />
       <div className="topic-actions">
         <Link href={`/grades/${encodeURIComponent(grade)}?lang=${lang}`}>
-          <button>Назад к темам</button>
+          <button>{t.backToTopics}</button>
         </Link>
         {prevTopic && (
           <Link href={buildTopicHref(grade, prevTopic.slug, lang)}>
-            <button>← Предыдущая тема</button>
+            <button>{t.prevTopic}</button>
           </Link>
         )}
         {nextTopic && (
           <Link href={buildTopicHref(grade, nextTopic.slug, lang)}>
-            <button>Следующая тема →</button>
+            <button>{t.nextTopic}</button>
           </Link>
         )}
       </div>

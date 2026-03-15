@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { getContentIndex, getLanguageFromSearchParam } from '@/lib/content';
 import TopicListClient from '@/components/TopicListClient';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { getUiText } from '@/lib/ui-i18n';
 
 export async function generateStaticParams() {
   const content = await getContentIndex('ru');
@@ -16,6 +17,7 @@ export default async function GradePage({
   searchParams?: { lang?: string };
 }) {
   const lang = getLanguageFromSearchParam(searchParams?.lang);
+  const t = getUiText(lang);
   const content = await getContentIndex(lang);
   const topics = content[params.grade] ?? [];
 
@@ -23,11 +25,16 @@ export default async function GradePage({
     <main className="container">
       <div className="page-toolbar">
         <div className="breadcrumbs">
-          <Link href={`/?lang=${lang}`}>Классы</Link> / <span>{params.grade} класс</span>
+          <Link href={`/?lang=${lang}`}>{t.classes}</Link> /{' '}
+          <span>
+            {params.grade} {t.gradeSuffix}
+          </span>
         </div>
-        <LanguageSwitcher lang={lang} />
+        <LanguageSwitcher lang={lang} label={t.languageLabel} />
       </div>
-      <h1>{params.grade} класс</h1>
+      <h1>
+        {params.grade} {t.gradeSuffix}
+      </h1>
       <TopicListClient grade={params.grade} topics={topics} lang={lang} />
     </main>
   );

@@ -1,14 +1,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { getUiText } from '../lib/ui-i18n';
 
 type Props = {
   grade: string;
   slug: string;
+  lang: string;
 };
 
-export default function ProgressControls({ grade, slug }: Props) {
+export default function ProgressControls({ grade, slug, lang }: Props) {
   const [completed, setCompleted] = useState(false);
+  const t = getUiText(lang);
 
   useEffect(() => {
     const viewedKey = `physics:viewed:${grade}`;
@@ -38,7 +41,7 @@ export default function ProgressControls({ grade, slug }: Props) {
   return (
     <div className="topic-actions">
       <button onClick={toggleCompleted} className={completed ? '' : 'primary'}>
-        {completed ? 'Снять отметку «Пройдено»' : 'Отметить как пройдено'}
+        {completed ? t.unmarkDone : t.markDone}
       </button>
     </div>
   );

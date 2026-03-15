@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import type { Topic } from '../lib/content-client';
 import { getSortedTopics } from '../lib/content-client';
+import { getUiText } from '../lib/ui-i18n';
 
 type Props = {
   grade: string;
@@ -25,7 +26,8 @@ function readCompleted(grade: string): Set<string> {
 export default function TopicListClient({ grade, topics, lang }: Props) {
   const [query, setQuery] = useState('');
   const [sortBy, setSortBy] = useState<'order' | 'title'>('order');
-  const [completed, setCompleted] = useState<Set<string>>(readCompleted(grade));
+  const [completed] = useState<Set<string>>(readCompleted(grade));
+  const t = getUiText(lang);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -45,7 +47,7 @@ export default function TopicListClient({ grade, topics, lang }: Props) {
     <>
       <div className="card">
         <p>
-          Прогресс: <strong>{progress}%</strong> ({completed.size}/{topics.length})
+          {t.progressLabel}: <strong>{progress}%</strong> ({completed.size}/{topics.length})
         </p>
         <div className="progress-bar" aria-label="grade progress">
           <span style={{ width: `${progress}%` }} />
@@ -53,24 +55,30 @@ export default function TopicListClient({ grade, topics, lang }: Props) {
       </div>
       <div className="controls">
         <input
-          placeholder="Поиск по темам и ключевым словам"
+          placeholder={t.searchPlaceholder}
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(event) => setQuery(event.target.value)}
         />
-        <select value={sortBy} onChange={(e) => setSortBy(e.target.value as 'order' | 'title')}>
-          <option value="order">Сортировка по номеру</option>
-          <option value="title">Сортировка по алфавиту</option>
+        <select value={sortBy} onChange={(event) => setSortBy(event.target.value as 'order' | 'title')}>
+          <option value="order">{t.sortByOrder}</option>
+          <option value="title">{t.sortByTitle}</option>
         </select>
       </div>
       <div className="grid">
         {filtered.map((topic) => (
-          <Link key={topic.slug} href={`/grades/${encodeURIComponent(grade)}/${encodeURIComponent(topic.slug)}?lang=${lang}`} className="card">
+          <Link
+            key={topic.slug}
+            href={`/grades/${encodeURIComponent(grade)}/${encodeURIComponent(topic.slug)}?lang=${lang}`}
+            className="card"
+          >
             <h3 style={{ marginTop: 0 }}>{topic.title}</h3>
-            <p className="muted">{topic.description || 'Без описания'}</p>
-            <p className="muted">Статус: {completed.has(topic.slug) ? '✅ Пройдено' : '— Не отмечено'}</p>
+            <p className="muted">{topic.description || t.noDescription}</p>
+            <p className="muted">
+              {t.statusLabel}: {completed.has(topic.slug) ? t.statusDone : t.statusNotMarked}
+            </p>
           </Link>
         ))}
-        {filtered.length === 0 && <p className="muted">Ничего не найдено.</p>}
+        {filtered.length === 0 && <p className="muted">{t.notFound}</p>}
       </div>
     </>
   );
